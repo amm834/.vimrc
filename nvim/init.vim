@@ -1,9 +1,60 @@
+call plug#begin()
+
+" Completion / linters / formatters
+
+" --- Just Some Notes for autocompletion ---
+" :PlugClean :PlugInstall :UpdateRemotePlugins
+"
+" :CocInstall coc-clangd
+" :CocInstall coc-snippets
+" :CocCommand snippets.edit... FOR EACH FILE TYPE
+"
+Plug 'neoclide/coc.nvim', {'branch': 'release','do':'pnpm install'}
+Plug 'plasticboy/vim-markdown'
+
+
+" Appearance
+Plug 'vim-airline/vim-airline'
+Plug 'ryanoasis/vim-devicons'
+
+" Themes
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'https://gitlab.com/__tpb/monokai-pro.nvim'
+
+" Utilities
+Plug 'sheerun/vim-polyglot'
+Plug 'jiangmiao/auto-pairs'
+Plug 'ap/vim-css-color'
+Plug 'preservim/nerdtree'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+
+
+
+Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
+Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
+
+Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
+Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
+Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+
+call plug#end()
+
+
+
+
 " editor basic
 " To Select All - use esc + ggVG
 " To Copy One line - use esc + $yy
 " To select all and copy - use esc + ggVG + $yy
 " To copy and select all data - 99999yy (huge amount of 9)
 
+" Theme
+colorscheme dracula 
+set guifont =Jetbrains\ Mono:h15
 
 " Options
 set encoding=UTF-8
@@ -67,14 +118,14 @@ let g:netrw_localcopydircmd='cp -r'
 
 " Create file without opening buffer
 function! CreateInPreview()
-  let l:filename = input('please enter filename: ')
-  execute 'silent !touch ' . b:netrw_curdir.'/'.l:filename
-  redraw!
+    let l:filename = input('please enter filename: ')
+    execute 'silent !touch ' . b:netrw_curdir.'/'.l:filename
+    redraw!
 endfunction
 
 " Netrw: create file using touch instead of opening a buffer
 function! Netrw_mappings()
-  noremap <buffer>% :call CreateInPreview()<cr>
+    noremap <buffer>% :call CreateInPreview()<cr>
 endfunction
 
 augroup auto_commands
@@ -82,49 +133,10 @@ augroup auto_commands
 augroup END
 
 
-call plug#begin()
-
-" Completion / linters / formatters
-
-" --- Just Some Notes for autocompletion ---
-" :PlugClean :PlugInstall :UpdateRemotePlugins
-"
-" :CocInstall coc-python
-" :CocInstall coc-clangd
-" :CocInstall coc-snippets
-" :CocCommand snippets.edit... FOR EACH FILE TYPE
-"
-    Plug 'neoclide/coc.nvim', {'branch': 'release','do':'pnpm install'}
-    Plug 'plasticboy/vim-markdown'
-
-" Appearance
-    Plug 'vim-airline/vim-airline'
-    Plug 'ryanoasis/vim-devicons'
-
-" Utilities
-    Plug 'sheerun/vim-polyglot'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'ap/vim-css-color'
-    Plug 'preservim/nerdtree'
-
-" Git
-    Plug 'airblade/vim-gitgutter'
-
-Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
-Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
-
-Plug 'https://github.com/rafi/awesome-vim-colorschemes' " Retro Scheme
-Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
-Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
-Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
-
-call plug#end()
-
-:colorscheme molokai
 
 " Airline setup 
 " set airline which theme to use
-" let g:airline_theme='molokai'
+let g:airline_theme='dracula'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
@@ -154,7 +166,10 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 " Alt+1: open file Explorer 
 
 " Normal mode remappings
-nnoremap <C-q> :q!<CR>
+nnoremap <C-w> :q!<CR>
+nnoremap <C-s> :w <CR>
+nnoremap <A-Right> :bnext <CR>
+nnoremap <A-Left> :bprevious <CR>
 nnoremap <F4> :bd<CR>
 nnoremap <F5> :NERDTreeToggle<CR>
 nnoremap <F6> :sp<CR>:terminal<CR>
@@ -163,7 +178,7 @@ nnoremap <F6> :sp<CR>:terminal<CR>
 nnoremap <S-Tab> gT
 nnoremap <Tab> gt
 nnoremap <silent> <S-t> :tabnew<CR>
-            
+
 " File Explorer toggle key bindings
 nnoremap <C-f> :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
@@ -173,7 +188,7 @@ nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
 "  CTRLP will ignore every file or directory mentioned inside your project's .gitignore file.
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
-" set autocompletion with tab in coc
+" Coc key bindings or Auto complete key bindings
 " autocompletion on tab
 inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
 
